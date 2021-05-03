@@ -44,6 +44,7 @@ public class BusiController {
     public Object show() {
         List<Object> list = redisCache.getCacheList("testKey");
         if (list.isEmpty()) {
+            //如果为空
             List returnList = queryDb();
             return returnList;
         }
@@ -52,13 +53,20 @@ public class BusiController {
 
 
     /**
-     * 模拟查询db
+     * 模拟查询db ,注意 sync的范围 和拿到锁再去查缓存
      *
      * @return
      */
     public List queryDb() {
         synchronized (this) {
-            //查询db
+            //拿到锁之后,再判断缓存中是有,如果没有,再去查db
+            List<Object> list = redisCache.getCacheList("testKey");
+            if (!list.isEmpty()) {
+                //如果不为空,直接返回
+                List returnList = queryDb();
+                return returnList;
+            }
+            //如果还是没有,查询db
             List<String> queryList = new ArrayList<>();
             //放入缓存
             redisCache.setCacheList("testKey", queryList);
