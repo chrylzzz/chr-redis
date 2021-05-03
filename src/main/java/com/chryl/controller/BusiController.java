@@ -66,8 +66,8 @@ public class BusiController {
             List<Object> list = redisCache.getCacheList("testKey");
             if (!list.isEmpty()) {
                 //如果不为空,直接返回
-                List returnList = queryDb();
-                return returnList;
+//                List returnList = orderService.query();
+//                return returnList;
             }
             //如果还是没有,查询db
             List<String> queryList = new ArrayList<>();
