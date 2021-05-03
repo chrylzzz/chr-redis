@@ -1,5 +1,7 @@
 package com.chryl;
 
+import com.chryl.po.GoodsPo;
+import com.chryl.po.OrderPo;
 import com.chryl.redis.RedisCache;
 import com.chryl.utils.SpringUtils;
 import org.junit.Test;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @SpringBootTest
@@ -109,4 +112,25 @@ public class ChrRedisApplicationTests {
         List<Integer> strRed2 = redisCache.getCacheMapValue("redStrKey", "strHashKey");
         System.out.println(strRed2);
     }
+
+
+    @Test
+    public void show() {
+        OrderPo orderPo = new OrderPo();
+        orderPo.setOrderId(21393993493L);
+        orderPo.setUserId(28384393221391L);
+        orderPo.setOrderPrice(new BigDecimal(992.29).setScale(2,BigDecimal.ROUND_HALF_UP));
+        GoodsPo goodsPo1 = new GoodsPo(123243242L, "dami", new BigDecimal(7732.11).setScale(2,BigDecimal.ROUND_HALF_UP), 2);
+        GoodsPo goodsPo2 = new GoodsPo(284838932L, "xiaomi", new BigDecimal(7732.11).setScale(2,BigDecimal.ROUND_HALF_UP), 2);
+        GoodsPo goodsPo3 = new GoodsPo(3838384L, "heidou", new BigDecimal(7732.11).setScale(2,BigDecimal.ROUND_HALF_UP), 2);
+        List<GoodsPo> goodsPoList = new ArrayList<>();
+        goodsPoList.add(goodsPo1);
+        goodsPoList.add(goodsPo2);
+        goodsPoList.add(goodsPo3);
+        orderPo.setGoodsPoList(goodsPoList);
+        redisCache.setCacheObject("20201020order", orderPo);
+        OrderPo cacheObject = (OrderPo) redisCache.getCacheObject("20201020order");
+        System.out.println(cacheObject);
+    }
+
 }

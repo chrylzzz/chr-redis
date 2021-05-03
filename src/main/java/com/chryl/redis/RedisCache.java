@@ -210,4 +210,18 @@ public class RedisCache {
     public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
+
+    /**
+     * 获取【下标】范围内的元素集合，下标从0开始
+     * start和end不能为负数
+     *
+     * @param key
+     * @param start 起始位置,从0开始
+     * @param end   终止位置
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> range(String key, long start, long end) {
+        return redisTemplate.opsForZSet().range(key, start, end);
+    }
 }

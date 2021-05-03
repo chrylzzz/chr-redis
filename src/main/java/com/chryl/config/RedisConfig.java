@@ -11,7 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import javax.annotation.Resource;
 
 /**
  * redis配置
@@ -40,4 +43,18 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.afterPropertiesSet();
         return template;
     }
+
+//    @Resource
+//    private RedisConnectionFactory redisConnectionFactory;
+//
+//    @Bean(value = "stringRedisTemplate")
+//    public StringRedisTemplate stringRedisTemplate() {
+//        StringRedisTemplate temp = new StringRedisTemplate();
+//        temp.setKeySerializer(new StringRedisSerializer());
+//        temp.setValueSerializer(new StringRedisSerializer());
+//        temp.setHashValueSerializer(new StringRedisSerializer());
+//        temp.setHashKeySerializer(new StringRedisSerializer());
+//        temp.setConnectionFactory(redisConnectionFactory);
+//        return temp;
+//    }
 }
