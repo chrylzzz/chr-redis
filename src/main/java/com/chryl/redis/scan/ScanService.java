@@ -21,7 +21,10 @@ public class ScanService {
     public Set<String> doScanKey(Long count, String pattern) {
         Set<String> result = stringRedisTemplate.execute((RedisCallback<Set<String>>) con -> {
             Set set = new HashSet();
-            ScanOptions.ScanOptionsBuilder scanOptionsBuilder = new ScanOptions.ScanOptionsBuilder();
+
+//            ScanOptions.ScanOptionsBuilder scanOptionsBuilder = new ScanOptions.ScanOptionsBuilder();
+            // 核心修正：使用静态工厂方法创建 ScanOptions 构建器
+            ScanOptions.ScanOptionsBuilder scanOptionsBuilder = ScanOptions.scanOptions();
             if (count != null) {
                 scanOptionsBuilder = scanOptionsBuilder.count(count);
             }
@@ -46,3 +49,5 @@ public class ScanService {
         return null;
     }
 }
+
+

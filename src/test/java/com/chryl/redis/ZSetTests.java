@@ -3,22 +3,20 @@ package com.chryl.redis;
 import com.alibaba.fastjson.JSON;
 import com.chryl.redis.zset.ZSetService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
+ *
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @Slf4j
 public class ZSetTests {
     @Resource

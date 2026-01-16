@@ -30,4 +30,9 @@ public class GoodsPo implements Serializable {
         this.goodsPrice = goodsPrice;
         this.num = num;
     }
+
+    public GoodsPo(Long goodsId, String goodsName) {
+        this.goodsId = goodsId;
+        this.goodsName = goodsName;
+    }
 }

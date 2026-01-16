@@ -4,8 +4,7 @@ import com.chryl.po.GoodsPo;
 import com.chryl.po.OrderPo;
 import com.chryl.redis.RedisCache;
 import com.chryl.utils.SpringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ChrRedisApplicationTests {
 
     @Autowired
@@ -119,10 +117,10 @@ public class ChrRedisApplicationTests {
         OrderPo orderPo = new OrderPo();
         orderPo.setOrderId(21393993493L);
         orderPo.setUserId(28384393221391L);
-        orderPo.setOrderPrice(new BigDecimal(992.29).setScale(2,BigDecimal.ROUND_HALF_UP));
-        GoodsPo goodsPo1 = new GoodsPo(123243242L, "dami", new BigDecimal(7732.11).setScale(2,BigDecimal.ROUND_HALF_UP), 2);
-        GoodsPo goodsPo2 = new GoodsPo(284838932L, "xiaomi", new BigDecimal(7732.11).setScale(2,BigDecimal.ROUND_HALF_UP), 2);
-        GoodsPo goodsPo3 = new GoodsPo(3838384L, "heidou", new BigDecimal(7732.11).setScale(2,BigDecimal.ROUND_HALF_UP), 2);
+        orderPo.setOrderPrice(new BigDecimal(992.29).setScale(2, BigDecimal.ROUND_HALF_UP));
+        GoodsPo goodsPo1 = new GoodsPo(123243242L, "dami", new BigDecimal(7732.11).setScale(2, BigDecimal.ROUND_HALF_UP), 2);
+        GoodsPo goodsPo2 = new GoodsPo(284838932L, "xiaomi", new BigDecimal(7732.11).setScale(2, BigDecimal.ROUND_HALF_UP), 2);
+        GoodsPo goodsPo3 = new GoodsPo(3838384L, "heidou", new BigDecimal(7732.11).setScale(2, BigDecimal.ROUND_HALF_UP), 2);
         List<GoodsPo> goodsPoList = new ArrayList<>();
         goodsPoList.add(goodsPo1);
         goodsPoList.add(goodsPo2);

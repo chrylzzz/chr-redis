@@ -1,26 +1,29 @@
-spring:
-  # redis 配置
-  redis:
-    # 地址
-    host: localhost
-    # 端口，默认为6379
-    port: 6379
-    # 数据库索引
-    database: 1
-    # 密码
-    password:
-    # 连接超时时间
-    timeout: 10s
-    lettuce:
-      pool:
-        # 连接池中的最小空闲连接
-        min-idle: 0
-        # 连接池中的最大空闲连接
-        max-idle: 8
-        # 连接池的最大数据库连接数
-        max-active: 8
-        # #连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: -1ms
+server:
+  port: 9018
+
+#spring:
+#  # redis 配置
+#  redis:
+#    # 地址
+#    host: localhost
+#    # 端口，默认为6379
+#    port: 6379
+#    # 数据库索引
+#    database: 0
+#    # 密码
+#    password:
+#    # 连接超时时间
+#    timeout: 10s
+#    lettuce:
+#      pool:
+#        # 连接池中的最小空闲连接
+#        min-idle: 0
+#        # 连接池中的最大空闲连接
+#        max-idle: 8
+#        # 连接池的最大数据库连接数
+#        max-active: 8
+#        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-wait: -1ms
 
 
 #    host: 192.168.1.37
@@ -30,3 +33,34 @@ spring:
     #[ERR] Node XXX is not empty. Either the node already knows other nodes (check with CLUSTER NODES) or contains some key in database 0
 #    cluster:
 #      nodes: 192.168.1.128:6380, 192.168.1.128:6381, 192.168.1.128:6382
+
+###############################################################################################################################################
+# 集群模式配置
+spring:
+  redis:
+    # Redis Cluster 核心配置
+    cluster:
+      # 3主3从 共6个节点，格式：host:port，逗号分隔
+      nodes:
+        - 10.40.137.101:9020  # 主节点1
+        - 10.40.137.103:9020  # 主节点2
+        - 10.40.137.105:9020  # 主节点3
+        - 10.40.137.101:9030  # 从节点1（对应主1）
+        - 10.40.137.103:9030  # 从节点2（对应主2）
+        - 10.40.137.105:9030  # 从节点3（对应主3）
+      # 最大重定向次数，防止槽位迁移时无限重定向，推荐3
+      max-redirects: 3
+    # 集群统一密码（若未设置密码则注释此行）
+    password: b3mr~N_ptFDx
+    # Redis Cluster 仅支持 db0，此配置无效，建议设为0
+    database: 0
+    # 连接超时时间（连接建立超时）
+    timeout: 5000ms
+    # Lettuce 客户端 + 连接池配置
+    lettuce:
+      pool:
+        max-active: 20       # 连接池最大连接数
+        max-idle: 10        # 最大空闲连接
+        min-idle: 5         # 最小空闲连接
+        max-wait: 3000ms    # 连接池最大阻塞等待时间
+      shutdown-timeout: 100ms  # 客户端关闭超时

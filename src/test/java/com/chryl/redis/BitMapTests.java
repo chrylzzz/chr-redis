@@ -2,17 +2,15 @@ package com.chryl.redis;
 
 import com.chryl.redis.bitmap.BitMapService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
 /**
+ *
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
 public class BitMapTests {
@@ -22,7 +20,6 @@ public class BitMapTests {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    @Test
     public void bitSet() {
         bitMapService.bitSet("112", 6L, true);
         bitMapService.bitSet("112", 0, true);

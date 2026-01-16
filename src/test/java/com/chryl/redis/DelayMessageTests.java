@@ -3,17 +3,15 @@ package com.chryl.redis;
 import com.chryl.redis.delaymessage.DelayTask;
 import com.chryl.redis.delaymessage.DelayTaskExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.UUID;
 
 /**
+ *
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
 public class DelayMessageTests {
@@ -22,7 +20,7 @@ public class DelayMessageTests {
     private DelayTaskExecutor delayTaskExecutor;
 
     @Test
-    public void doTest() {
+    void doTest() {
         for (int i = 0; i < 10; i++) {
             DelayTask delayTask = new DelayTask();
             delayTask.setK(i);

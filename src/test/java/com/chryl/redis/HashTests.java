@@ -3,10 +3,8 @@ package com.chryl.redis;
 import com.alibaba.fastjson.JSON;
 import com.chryl.redis.hash.HashService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -14,9 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ *
  **/
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @Slf4j
 public class HashTests {
     @Resource
@@ -95,8 +93,9 @@ public class HashTests {
     public void keys() {
         log.info(JSON.toJSONString(hashService.keys("javaHashAll1")));
     }
+
     @Test
-    public void increment(){
-        log.info(JSON.toJSONString(hashService.increment("javaHashAll","putAllString",11L)));
+    public void increment() {
+        log.info(JSON.toJSONString(hashService.increment("javaHashAll", "putAllString", 11L)));
     }
 }
