@@ -20,7 +20,9 @@ public class RedissonConfig {
 
 //        config.useClusterServers().addNodeAddress("127.0.0.1:6379");
 //        config.useSingleServer().setAddress("rediss://127.0.0.1:6379");//安全连接
-        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
+
+//        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
+        config.useSingleServer().setAddress("redis://10.40.137.101:9020").setDatabase(0).setPassword("b3mr~N_ptFDx");
 
         return Redisson.create(config);
     }
