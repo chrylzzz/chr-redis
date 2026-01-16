@@ -1,4 +1,4 @@
-package com.chryl.controller.redisson;
+package com.chryl.config.redisson;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
