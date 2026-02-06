@@ -1,11 +1,12 @@
 package com.chryl.controller.test;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.chryl.redis.general.GeneralRedis;
 import com.chryl.redis.list.ListService;
 import com.chryl.redis.string.StringService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("hy")
-public class ChrylController {
+public class ChrylRedisController {
     @Autowired
     private ListService listService;
 
@@ -46,5 +47,21 @@ public class ChrylController {
         String res = "设置成功";
         generalRedis.expire(key, 360);
         return res;
+    }
+
+    @GetMapping("yjw3")
+    public String yjw3() {
+        String key = "yjw";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("key", "value");
+        listService.leftPush(key, jsonObject.toString());
+        String res = "设置成功";
+        generalRedis.expire(key, 360);
+        return res;
+    }
+
+    @GetMapping("getKey/{key}")
+    public Object show(@PathVariable String key) {
+        return listService.getAllListData(key);
     }
 }

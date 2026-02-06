@@ -1,21 +1,29 @@
 package com.chryl.redis.list;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
+ *
  */
 @Slf4j
 @Component
 public class ListService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 往 key 这个list放入一个value
@@ -142,5 +150,87 @@ public class ListService {
             stringRedisTemplate.opsForList().rightPopAndLeftPush(key1, key2, timeout, TimeUnit.SECONDS);
         }
     }
+
+    /**
+     * 获取List中指定范围的元素（常用）
+     *
+     * @param key   Redis的List类型key
+     * @param start 起始索引（0表示第一个元素，-1表示最后一个）
+     * @param end   结束索引（0表示第一个元素，-1表示最后一个）
+     * @return 对应范围的List数据
+     */
+    public List<String> getListRange(String key, long start, long end) {
+        // opsForList()获取List类型操作对象，range()获取指定范围元素
+        return stringRedisTemplate.opsForList().range(key, start, end);
+    }
+
+    /**
+     * 获取List的长度（元素个数）
+     *
+     * @param key Redis的List类型key
+     * @return List的长度
+     */
+    public Long getListSize(String key) {
+        return stringRedisTemplate.opsForList().size(key);
+    }
+
+    /**
+     * 获取整个List的所有元素
+     *
+     * @param key Redis的List类型key
+     * @return 整个List的所有元素
+     */
+    public List<String> getAllList(String key) {
+        // start=0，end=-1 表示获取从第一个到最后一个的所有元素
+        return getListRange(key, 0, -1);
+    }
+
+    /**
+     * 获取 Redis List 中的全部数据，并转换为 List<JSONObject>
+     *
+     * @param key Redis List 的 key
+     * @return 包含所有元素的 List<JSONObject>
+     */
+    public List<JSONObject> getAllListData(String key) {
+        // 1. 获取 Redis List 全部数据（0 表示起始位置，-1 表示最后一个元素）
+        List<Object> redisList = redisTemplate.opsForList().range(key, 0, -1);
+
+        // 2. 判空处理
+        if (redisList == null || redisList.isEmpty()) {
+            return new ArrayList<>(); // 返回空列表，避免空指针
+        }
+
+        // 3. 转换为 List<JSONObject>
+        return redisList.stream()
+                .map(item -> {
+                    if (item instanceof JSONObject) {
+                        // 如果已经是 JSONObject 类型，直接返回
+                        return (JSONObject) item;
+                    } else if (item instanceof String) {
+                        // 如果是字符串类型，解析为 JSONObject
+                        try {
+                            return JSONObject.parseObject((String) item);
+                        } catch (Exception e) {
+                            // 解析失败时返回空的 JSONObject 或抛出异常
+                            return new JSONObject();
+                        }
+                    } else {
+                        // 其他类型转换为字符串后再解析
+                        return JSONObject.parseObject(item.toString());
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 向 Redis List 中添加测试数据（用于测试）
+     *
+     * @param key        Redis List 的 key
+     * @param jsonObject 要添加的 JSON 数据
+     */
+    public void addTestData(String key, JSONObject jsonObject) {
+        redisTemplate.opsForList().rightPush(key, jsonObject.toJSONString());
+    }
+
 
 }

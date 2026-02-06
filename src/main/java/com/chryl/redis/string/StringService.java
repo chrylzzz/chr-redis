@@ -20,4 +20,8 @@ public class StringService {
     public void set(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);
     }
+
+    public void get(String key) {
+       stringRedisTemplate.opsForValue().get(key);
+    }
 }
