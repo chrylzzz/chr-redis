@@ -1,16 +1,21 @@
 package com.chryl;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.chryl.po.GoodsPo;
 import com.chryl.po.OrderPo;
 import com.chryl.redis.RedisCache;
+import com.chryl.redis.general.GeneralRedis;
+import com.chryl.redis.list.ListService;
+import com.chryl.redis.string.StringService;
 import com.chryl.utils.SpringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @SpringBootTest
@@ -129,6 +134,37 @@ public class ChrRedisApplicationTests {
         redisCache.setCacheObject("20201020order", orderPo);
         OrderPo cacheObject = (OrderPo) redisCache.getCacheObject("20201020order");
         System.out.println(cacheObject);
+    }
+
+    @Autowired
+    private ListService listService;
+    @Autowired
+    private GeneralRedis generalRedis;
+    @Resource
+    private StringService stringService;
+
+    @Test
+    public void setPop() {
+        for (int i = 0; i < 10; i++) {
+            String key = "yjw";
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("know接收到请求的时间", LocalDateTime.now().toString());
+            jsonObject.put("know发送kernel请求的时间", LocalDateTime.now().toString());
+            jsonObject.put("know接第一个字的时间", LocalDateTime.now().toString());
+            jsonObject.put("know接最后一个字的时间", LocalDateTime.now().toString());
+            jsonObject.put("know本次请求总耗时", LocalDateTime.now().toString());
+            jsonObject.put("本次请求返回总字数", LocalDateTime.now().toString());
+            listService.leftPush(key, jsonObject.toString());
+            generalRedis.expire(key, 360);
+        }
+        String res = "设置成功";
+        System.out.println(res);
+
+    }
+    @Test
+    public void leftPop() {
+        List<String> list = redisTemplate.opsForList().leftPop("yjw", 30);
+        System.out.println(list);
     }
 
 }

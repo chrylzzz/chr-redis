@@ -19,7 +19,7 @@ public class GeneralRedis {
     private StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 设置超时时间
+     * 指定key设置超时时间
      *
      * @param key
      * @param seconds 秒

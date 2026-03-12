@@ -53,7 +53,12 @@ public class ChrylRedisController {
     public String yjw3() {
         String key = "yjw";
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("key", "value");
+        jsonObject.put("know接收到请求的时间","20260505 12:13:15.236");
+        jsonObject.put("know发送kernel请求的时间","20260505 12:13:15.236");
+        jsonObject.put("know接第一个字的时间","20260505 12:13:15.236");
+        jsonObject.put("know接最后一个字的时间","20260505 12:13:15.236");
+        jsonObject.put("know本次请求总耗时","20260505 12:13:15.236");
+        jsonObject.put("本次请求返回总字数","20260505 12:13:15.236");
         listService.leftPush(key, jsonObject.toString());
         String res = "设置成功";
         generalRedis.expire(key, 360);
@@ -64,4 +69,5 @@ public class ChrylRedisController {
     public Object show(@PathVariable String key) {
         return listService.getAllListData(key);
     }
+
 }
